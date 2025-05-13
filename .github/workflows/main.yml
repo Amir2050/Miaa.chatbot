@@ -1,0 +1,36 @@
+name: Deploy Mia Chatbot to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on pushes to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # The environment the job runs on (Ubuntu in this case)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2  # This checks out your code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # This sets the Node.js version for the environment
+
+      - name: Install dependencies (if necessary)
+        run: |
+          npm install  # If you have dependencies like npm packages, install them
+
+      - name: Build your site (if necessary)
+        run: |
+          # If your website needs to be built before deploying (e.g., using a static site generator like Jekyll or Hugo),
+          # add your build command here. For example:
+          # npm run build
+          
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # The branch to deploy your site to (we're using `gh-pages`)
+          folder: ./  # The folder to deploy, if it's the root, use `./` (change if your files are in another folder)
+          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically provides this token to authenticate with the repository
